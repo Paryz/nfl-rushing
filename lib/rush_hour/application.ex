@@ -14,7 +14,7 @@ defmodule RushHour.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: RushHour.PubSub},
       # Start the Endpoint (http/https)
-      RushHourWeb.Endpoint,
+      RushHourWeb.Endpoint
       # Start a worker by calling: RushHour.Worker.start_link(arg)
       # {RushHour.Worker, arg}
     ]
