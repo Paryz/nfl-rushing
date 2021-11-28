@@ -6,11 +6,9 @@ defmodule RushHourWeb.PageLive do
 
   @impl true
   def mount(params, _session, socket) do
-    sort_by = Map.get(params, "sort_by", "")
-
     params =
-      Map.merge(parse_params(params, socket.assigns), %{
-        "sort_by" => get_sort_by_function(sort_by)
+      parse_params(params, socket.assigns, %{
+        "sort_by" => params |> Map.get("sort_by", "") |> get_sort_by_function()
       })
 
     socket
@@ -25,7 +23,7 @@ defmodule RushHourWeb.PageLive do
     sort_by = Map.get(params, "sort_by", "")
 
     params =
-      Map.merge(parse_params(params, socket.assigns), %{
+      parse_params(params, socket.assigns, %{
         "sort_by" => get_sort_by_function(sort_by)
       })
 
@@ -37,12 +35,11 @@ defmodule RushHourWeb.PageLive do
 
   @impl true
   def handle_event("next", params, socket) do
-    sort_by = Map.get(socket.assigns, :sort_by, "")
     page = socket.assigns.page + 1
 
     params =
-      Map.merge(parse_params(params, socket.assigns), %{
-        "sort_by" => get_sort_by_function(sort_by),
+      parse_params(params, socket.assigns, %{
+        "sort_by" => socket.assigns |> Map.get(:sort_by, []) |> get_sort_by_function(),
         "page" => page
       })
 
@@ -53,12 +50,11 @@ defmodule RushHourWeb.PageLive do
   end
 
   def handle_event("previous", params, socket) do
-    sort_by = Map.get(socket.assigns, :sort_by, "")
     page = ensure_page_bigger_than_zero(socket.assigns)
 
     params =
-      Map.merge(parse_params(params, socket.assigns), %{
-        "sort_by" => get_sort_by_function(sort_by),
+      parse_params(params, socket.assigns, %{
+        "sort_by" => socket.assigns |> Map.get(:sort_by, []) |> get_sort_by_function(),
         "page" => page
       })
 
@@ -66,12 +62,6 @@ defmodule RushHourWeb.PageLive do
      socket
      |> assign(data: fetch_all_rush_statistics(params))
      |> assign(page: page)}
-  end
-
-  @impl true
-  def handle_event("sort", %{"key" => key, "direction" => direction}, socket) do
-    params = %{sort_key: key, sort_direction: direction}
-    {:noreply, assign(socket, data: fetch_all_rush_statistics(params))}
   end
 
   @impl true
@@ -90,10 +80,11 @@ defmodule RushHourWeb.PageLive do
     |> FE.Result.unwrap!()
   end
 
-  defp parse_params(params, assigns) do
+  defp parse_params(params, assigns, additional_params) do
     params
     |> Map.get("page", Map.get(assigns, :page, 0))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
+    |> Map.merge(additional_params)
   end
 
   defp parse_string_to_int(int) when is_integer(int), do: int
