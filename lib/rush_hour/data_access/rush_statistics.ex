@@ -1,5 +1,6 @@
 defmodule RushHour.DataAccess.RushStatistics do
   import Ecto.Query
+
   alias FE.{Maybe, Result}
 
   alias RushHour.Repo
@@ -30,14 +31,29 @@ defmodule RushHour.DataAccess.RushStatistics do
   def all_with_preloads(params) do
     page = Map.get(params, "page", 0)
     sort_by = Map.get(params, "sort_by", [])
+    maybe_search_query = Map.get(params, "search") |> Maybe.new()
 
     RushStatistic
     |> from(as: :rush_statistics)
+    |> join(:inner, [rush_statistics: rs], p in assoc(rs, :player), as: :players)
     |> preload(player: :team)
     |> order_by(^sort_by)
+    |> maybe_search_query(maybe_search_query)
     |> paginate(page, 15)
     |> Repo.all()
     |> Result.ok()
+  end
+
+  defp maybe_search_query(query, :nothing), do: query
+
+  defp maybe_search_query(query, {:just, search_query}) do
+    like_query = "%#{search_query}%"
+
+    where(
+      query,
+      [players: p],
+      ilike(p.first_name, ^like_query) or ilike(p.last_name, ^like_query)
+    )
   end
 
   defp paginate(query, page, per_page) do

@@ -15,6 +15,7 @@ defmodule RushHourWeb.PageLive do
     |> assign(:socket, socket)
     |> assign(:data, fetch_all_rush_statistics(params))
     |> assign(:page, Map.get(params, "page", "0"))
+    |> assign(:search, Map.get(params, "search", ""))
     |> FE.Result.ok()
   end
 
@@ -65,8 +66,17 @@ defmodule RushHourWeb.PageLive do
   end
 
   @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    {:noreply, assign(socket, data: fetch_all_rush_statistics(%{search: query}))}
+  def handle_event("search", %{"search" => %{"query" => query}} = params, socket) do
+    params =
+      parse_params(params, socket.assigns, %{
+        "search" => query,
+        "sort_by" => socket.assigns |> Map.get(:sort_by, []) |> get_sort_by_function()
+      })
+
+    {:noreply,
+     socket
+     |> assign(data: fetch_all_rush_statistics(params))
+     |> assign(search: query)}
   end
 
   @impl true
@@ -84,6 +94,7 @@ defmodule RushHourWeb.PageLive do
     params
     |> Map.get("page", Map.get(assigns, :page, 0))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
+    |> Map.put("search", Map.get(assigns, :search, ""))
     |> Map.merge(additional_params)
   end
 

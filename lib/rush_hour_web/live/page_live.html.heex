@@ -2,7 +2,12 @@
   <h1 class="mb-4 text-3xl font-medium text-gray-900 title-font sm:text-4xl"><%= gettext "Welcome to Rush Hour!" %></h1>
   <p class="mb-8 leading-relaxed">Most up to date rushing statistics for "all" NFL players</p>
 </section>
-
+<section class="text-center pb-3">
+  <%= form_for :search, "#", [phx_change: "search"],  fn f -> %>
+    <%= label f, :search %>
+    <%= text_input f, :query, value: @search %>
+  <% end %>
+</section>
 <section class="flex flex-col items-center justify-center">
   <div class="flex flex-row text-center">
     <List.render data={@data} socket={@socket} />
