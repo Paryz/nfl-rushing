@@ -6,7 +6,7 @@ defmodule RushHourWeb.PageLive do
 
   @impl true
   def mount(params, _session, socket) do
-    params = parse_params(params)
+    params = parse_params(params, socket.assigns)
 
     socket
     |> assign(:data, fetch_all_rush_statistics(params))
@@ -25,7 +25,7 @@ defmodule RushHourWeb.PageLive do
   end
 
   def handle_event("previous", _params, socket) do
-    page = socket.assigns.page - 1
+    page = ensure_page_bigger_than_zero(socket.assigns)
 
     {:noreply,
      socket
@@ -55,11 +55,13 @@ defmodule RushHourWeb.PageLive do
     |> FE.Result.unwrap!()
   end
 
-  defp parse_params(params) do
+  defp parse_params(params, assigns) do
     params
-    |> Map.get("page", "1")
+    |> Map.get("page", Map.get(assigns, :page, 1))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
   end
+
+  defp parse_string_to_int(int) when is_integer(int), do: int
 
   defp parse_string_to_int(string) do
     string
@@ -67,6 +69,13 @@ defmodule RushHourWeb.PageLive do
     |> case do
       {int, _} -> int
       :error -> :error
+    end
+  end
+
+  defp ensure_page_bigger_than_zero(assigns) do
+    case assigns.page == 0 do
+      true -> 0
+      false -> assigns.page - 1
     end
   end
 end

@@ -20,6 +20,14 @@
   @apply text-white bg-blue-500 py-2 px-6 hover:bg-blue-600 text-lg;
 }
 
+tr:nth-child(even) {
+  background-color: rgba(249,250,251, 1);
+}
+
+tr:nth-child(od) {
+  background-color: #fff;
+}
+
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {

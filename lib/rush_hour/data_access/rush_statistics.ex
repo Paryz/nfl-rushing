@@ -39,10 +39,16 @@ defmodule RushHour.DataAccess.RushStatistics do
   end
 
   defp paginate(query, page, per_page) do
-    offset_by = page * per_page
+    case page > 0 do
+      true ->
+        offset_by = page * per_page
 
-    query
-    |> limit(^per_page)
-    |> offset(^offset_by)
+        query
+        |> limit(^per_page)
+        |> offset(^offset_by)
+
+      false ->
+        limit(query, ^per_page)
+    end
   end
 end

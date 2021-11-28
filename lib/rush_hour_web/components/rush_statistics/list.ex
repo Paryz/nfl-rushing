@@ -17,7 +17,40 @@ defmodule RushHourWeb.Components.RushStatistics.List do
                   Team Name
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total Yards
+                  Total Rushing Yards
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Longest Rush
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Total Rushing Touchdowns
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Avg Att/G
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Total Attempts
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Avg Yds/Att
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Avg Yds/G
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  First Downs
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  First Downs Percentage
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  20+ Yds Rushes
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  40+ Yds Rushes
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Fumbles
                 </th>
               </tr>
             </thead>
