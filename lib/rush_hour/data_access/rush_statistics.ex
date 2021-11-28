@@ -1,5 +1,6 @@
 defmodule RushHour.DataAccess.RushStatistics do
-  alias FE.Maybe
+  import Ecto.Query
+  alias FE.{Maybe, Result}
 
   alias RushHour.Repo
 
@@ -23,5 +24,25 @@ defmodule RushHour.DataAccess.RushStatistics do
     |> RushStatistic.update_changset(new_rush_statistics)
     |> Repo.update()
     |> ChangesetErrorHelper.handle_errors()
+  end
+
+  @spec all_with_preloads(map()) :: Result.t([%RushStatistic{}])
+  def all_with_preloads(params) do
+    page = Map.get(params, "page", 1)
+
+    RushStatistic
+    |> from(as: :rush_statistics)
+    |> preload(player: :team)
+    |> paginate(page, 15)
+    |> Repo.all()
+    |> Result.ok()
+  end
+
+  defp paginate(query, page, per_page) do
+    offset_by = page * per_page
+
+    query
+    |> limit(^per_page)
+    |> offset(^offset_by)
   end
 end
