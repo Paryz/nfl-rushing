@@ -28,11 +28,13 @@ defmodule RushHour.DataAccess.RushStatistics do
 
   @spec all_with_preloads(map()) :: Result.t([%RushStatistic{}])
   def all_with_preloads(params) do
-    page = Map.get(params, "page", 1)
+    page = Map.get(params, "page", 0)
+    sort_by = Map.get(params, "sort_by", [])
 
     RushStatistic
     |> from(as: :rush_statistics)
     |> preload(player: :team)
+    |> order_by(^sort_by)
     |> paginate(page, 15)
     |> Repo.all()
     |> Result.ok()

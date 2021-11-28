@@ -17,13 +17,31 @@ defmodule RushHourWeb.Components.RushStatistics.List do
                   Team Name
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total Rushing Yards
+                  <div>
+                    Total Rushing Yards
+                  </div>
+                  <div>
+                    <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_yards_asc"}) %>
+                    <%= live_patch "↓", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_yards_desc"}) %>
+                  </div>
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Longest Rush
+                  <div>
+                    Longest Rush
+                  </div>
+                  <div>
+                    <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "longest_rush_asc"}) %>
+                    <%= live_patch "↓", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "longest_rush_desc"}) %>
+                  </div>
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total Rushing Touchdowns
+                  <div>
+                    Total Rushing Touchdowns
+                  </div>
+                  <div>
+                    <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_touchdowns_asc"}) %>
+                    <%= live_patch "↓", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_touchdowns_desc"}) %>
+                  </div>
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Avg Att/G

@@ -6,30 +6,65 @@ defmodule RushHourWeb.PageLive do
 
   @impl true
   def mount(params, _session, socket) do
-    params = parse_params(params, socket.assigns)
+    sort_by = Map.get(params, "sort_by", "")
+
+    params =
+      Map.merge(parse_params(params, socket.assigns), %{
+        "sort_by" => get_sort_by_function(sort_by)
+      })
 
     socket
+    |> assign(:socket, socket)
     |> assign(:data, fetch_all_rush_statistics(params))
-    |> assign(:page, Map.get(params, "page", "1"))
+    |> assign(:page, Map.get(params, "page", "0"))
     |> FE.Result.ok()
   end
 
   @impl true
-  def handle_event("next", _params, socket) do
-    page = socket.assigns.page + 1
+  def handle_params(params, _uri, socket) do
+    sort_by = Map.get(params, "sort_by", "")
+
+    params =
+      Map.merge(parse_params(params, socket.assigns), %{
+        "sort_by" => get_sort_by_function(sort_by)
+      })
 
     {:noreply,
      socket
-     |> assign(data: fetch_all_rush_statistics(%{"page" => page}))
+     |> assign(:data, fetch_all_rush_statistics(params))
+     |> assign(:sort_by, sort_by)}
+  end
+
+  @impl true
+  def handle_event("next", params, socket) do
+    sort_by = Map.get(socket.assigns, :sort_by, "")
+    page = socket.assigns.page + 1
+
+    params =
+      Map.merge(parse_params(params, socket.assigns), %{
+        "sort_by" => get_sort_by_function(sort_by),
+        "page" => page
+      })
+
+    {:noreply,
+     socket
+     |> assign(data: fetch_all_rush_statistics(params))
      |> assign(page: page)}
   end
 
-  def handle_event("previous", _params, socket) do
+  def handle_event("previous", params, socket) do
+    sort_by = Map.get(socket.assigns, :sort_by, "")
     page = ensure_page_bigger_than_zero(socket.assigns)
+
+    params =
+      Map.merge(parse_params(params, socket.assigns), %{
+        "sort_by" => get_sort_by_function(sort_by),
+        "page" => page
+      })
 
     {:noreply,
      socket
-     |> assign(data: fetch_all_rush_statistics(%{"page" => page}))
+     |> assign(data: fetch_all_rush_statistics(params))
      |> assign(page: page)}
   end
 
@@ -57,7 +92,7 @@ defmodule RushHourWeb.PageLive do
 
   defp parse_params(params, assigns) do
     params
-    |> Map.get("page", Map.get(assigns, :page, 1))
+    |> Map.get("page", Map.get(assigns, :page, 0))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
   end
 
@@ -78,4 +113,12 @@ defmodule RushHourWeb.PageLive do
       false -> assigns.page - 1
     end
   end
+
+  defp get_sort_by_function("total_yards_desc"), do: [desc: :total_yards]
+  defp get_sort_by_function("total_yards_asc"), do: [asc: :total_yards]
+  defp get_sort_by_function("longest_rush_desc"), do: [desc: :longest_rush]
+  defp get_sort_by_function("longest_rush_asc"), do: [asc: :longest_rush]
+  defp get_sort_by_function("total_touchdowns_desc"), do: [desc: :total_touchdowns]
+  defp get_sort_by_function("total_touchdowns_asc"), do: [asc: :total_touchdowns]
+  defp get_sort_by_function(_), do: []
 end
