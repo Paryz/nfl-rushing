@@ -55,7 +55,8 @@ defmodule RushHour.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
       {:ecto_psql_extras, "~> 0.7"},
-      {:fe, "~> 0.1.4"}
+      {:fe, "~> 0.1.4"},
+      {:csv, "~> 2.4"}
     ]
   end
 

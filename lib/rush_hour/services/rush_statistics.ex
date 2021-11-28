@@ -1,4 +1,6 @@
 defmodule RushHour.Services.RushStatistics do
+  alias FE.Result
+
   alias RushHour.DataAccess
   alias RushHour.DataAccess.Schemas.RushStatistic
 
@@ -18,5 +20,12 @@ defmodule RushHour.Services.RushStatistics do
   @spec fetch_all_with_preloads(map()) :: Result.t([%RushStatistic{}])
   def fetch_all_with_preloads(params) do
     DataAccess.RushStatistics.all_with_preloads(params)
+  end
+
+  @spec download_csv(map()) :: Result.t(binary())
+  def download_csv(params) do
+    params
+    |> DataAccess.RushStatistics.all_with_preloads()
+    |> Result.and_then(&DataAccess.RushStatistics.transform_to_csv/1)
   end
 end

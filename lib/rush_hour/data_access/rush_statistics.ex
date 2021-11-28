@@ -30,6 +30,7 @@ defmodule RushHour.DataAccess.RushStatistics do
   @spec all_with_preloads(map()) :: Result.t([%RushStatistic{}])
   def all_with_preloads(params) do
     page = Map.get(params, "page", 0)
+    per_page = Map.get(params, "per_page", 15)
     sort_by = Map.get(params, "sort_by", [])
     maybe_search_query = Map.get(params, "search") |> Maybe.new()
 
@@ -39,9 +40,60 @@ defmodule RushHour.DataAccess.RushStatistics do
     |> preload(player: :team)
     |> order_by(^sort_by)
     |> maybe_search_query(maybe_search_query)
-    |> paginate(page, 15)
+    |> paginate(page, per_page)
     |> Repo.all()
     |> Result.ok()
+  end
+
+  @spec transform_to_csv([%RushStatistic{}]) :: Result.t(function())
+  def transform_to_csv(rush_statistics) do
+    csv_headers()
+    |> Stream.concat(
+      rush_statistics
+      |> Stream.map(
+        &[
+          "#{&1.player.first_name} #{&1.player.last_name}",
+          &1.player.team.short_name,
+          &1.player.position,
+          &1.total_yards,
+          "#{&1.longest_rush}#{maybe_add_T_if_touchdown(&1.was_longest_touchdown)}",
+          &1.total_touchdowns,
+          &1.avg_att_per_game,
+          &1.total_attempts,
+          &1.avg_yds_per_att,
+          &1.avg_yds_per_game,
+          &1.first_downs,
+          &1.first_downs_percentage,
+          &1.more_than_twenty_yds,
+          &1.more_than_forty_yds,
+          &1.fumbles
+        ]
+      )
+    )
+    |> CSV.encode()
+    |> Result.ok()
+  end
+
+  defp csv_headers() do
+    [
+      [
+        "player",
+        "team",
+        "position",
+        "total rushing yards",
+        "longest rush",
+        "total rushing touchdowns",
+        "avg att/g",
+        "total attempts",
+        "avg yds/att",
+        "avg yds/g",
+        "first downs",
+        "first downs percentage",
+        "20+ yds rushes",
+        "40+ yds rushes",
+        "fumbles"
+      ]
+    ]
   end
 
   defp maybe_search_query(query, :nothing), do: query
@@ -69,4 +121,7 @@ defmodule RushHour.DataAccess.RushStatistics do
         limit(query, ^per_page)
     end
   end
+
+  defp maybe_add_T_if_touchdown(true), do: "T"
+  defp maybe_add_T_if_touchdown(false), do: ""
 end

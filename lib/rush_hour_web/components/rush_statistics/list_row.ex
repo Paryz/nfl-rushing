@@ -26,6 +26,15 @@ defmodule RushHourWeb.Components.RushStatistics.ListRow do
         <span class="px-2 flex justify-center text-xs leading-5 font-semibold rounded-full">
           <div>
             <div class="text-lg font-medium text-gray-900">
+              <%= @row.player.position %>
+            </div>
+          </div>
+        </span>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <span class="px-2 flex justify-center text-xs leading-5 font-semibold rounded-full">
+          <div>
+            <div class="text-lg font-medium text-gray-900">
               <%= @row.total_yards %>
             </div>
           </div>

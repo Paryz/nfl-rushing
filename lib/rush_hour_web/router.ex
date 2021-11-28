@@ -17,6 +17,8 @@ defmodule RushHourWeb.Router do
   scope "/", RushHourWeb do
     pipe_through :browser
 
+    get "/download_csv", Controllers.DownloadController, :download_csv
+
     live "/", PageLive, :index
   end
 

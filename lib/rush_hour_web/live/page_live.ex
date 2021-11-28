@@ -19,10 +19,7 @@ defmodule RushHourWeb.PageLive do
     |> FE.Result.ok()
   end
 
-  @impl true
-  def handle_params(params, _uri, socket) do
-    sort_by = Map.get(params, "sort_by", "")
-
+  def handle_params(%{"sort_by" => sort_by} = params, _uri, socket) do
     params =
       parse_params(params, socket.assigns, %{
         "sort_by" => get_sort_by_function(sort_by)
@@ -32,6 +29,11 @@ defmodule RushHourWeb.PageLive do
      socket
      |> assign(:data, fetch_all_rush_statistics(params))
      |> assign(:sort_by, sort_by)}
+  end
+
+  @impl true
+  def handle_params(%{}, _uri, socket) do
+    {:noreply, assign(socket, :sort_by, [])}
   end
 
   @impl true
@@ -77,11 +79,6 @@ defmodule RushHourWeb.PageLive do
      socket
      |> assign(data: fetch_all_rush_statistics(params))
      |> assign(search: query)}
-  end
-
-  @impl true
-  def handle_event("downlaod-csv", %{"data" => data}, socket) do
-    {:noreply, assign(socket, results: [], data: data)}
   end
 
   defp fetch_all_rush_statistics(params) do

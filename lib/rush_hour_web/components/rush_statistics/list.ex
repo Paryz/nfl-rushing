@@ -17,6 +17,9 @@ defmodule RushHourWeb.Components.RushStatistics.List do
                   Team Name
                 </th>
                 <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Position
+                </th>
+                <th scope="col" class="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <div>
                     Total Rushing Yards
                   </div>
