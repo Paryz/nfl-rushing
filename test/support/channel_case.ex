@@ -22,6 +22,7 @@ defmodule RushHourWeb.ChannelCase do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import RushHourWeb.ChannelCase
+      import RushHour.Factory
 
       # The default endpoint for testing
       @endpoint RushHourWeb.Endpoint

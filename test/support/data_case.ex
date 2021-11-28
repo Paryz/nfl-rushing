@@ -24,6 +24,7 @@ defmodule RushHour.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import RushHour.DataCase
+      import RushHour.Factory
     end
   end
 

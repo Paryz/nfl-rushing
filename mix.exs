@@ -56,6 +56,7 @@ defmodule RushHour.MixProject do
       {:sobelow, "~> 0.8", only: :dev},
       {:ecto_psql_extras, "~> 0.7"},
       {:fe, "~> 0.1.4"},
+      {:ex_machina, "~> 2.7.0"},
       {:csv, "~> 2.4"}
     ]
   end

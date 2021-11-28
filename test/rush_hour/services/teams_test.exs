@@ -6,7 +6,7 @@ defmodule RushHour.Services.TeamsTest do
 
   describe "find_or_create/1" do
     test "team already in db" do
-      %{id: team_id} = %Team{short_name: "TEN"} |> Repo.insert!()
+      %{id: team_id} = insert(:team, short_name: "TEN")
 
       assert {:ok, %Team{short_name: "TEN"}} = Teams.find_or_create("TEN")
       assert %Team{} = Repo.get(Team, team_id)

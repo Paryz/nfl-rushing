@@ -23,6 +23,7 @@ defmodule RushHourWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import RushHourWeb.ConnCase
+      import RushHour.Factory
 
       alias RushHourWeb.Router.Helpers, as: Routes
 

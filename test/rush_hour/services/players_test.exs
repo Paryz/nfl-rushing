@@ -1,7 +1,7 @@
 defmodule RushHour.Services.PlayersTest do
   use RushHour.DataCase
 
-  alias RushHour.DataAccess.Schemas.{Player, Team}
+  alias RushHour.DataAccess.Schemas.Player
   alias RushHour.Services.Players
 
   describe "find_or_create/3" do
@@ -10,28 +10,24 @@ defmodule RushHour.Services.PlayersTest do
     end
 
     test "player already in db" do
-      %Team{short_name: "TB"} |> Repo.insert!()
-
-      %{id: player_id} =
-        %Player{first_name: "Tom", last_name: "Brady", position: "QB"} |> Repo.insert!()
+      %{id: team_id} = insert(:team)
+      %{id: player_id} = insert(:player, team_id: team_id)
 
       assert {:ok, %Player{first_name: "Tom", last_name: "Brady", position: "QB"}} =
                Players.find_or_create("Tom Brady", "QB", "TB")
 
-      assert %Player{first_name: "Tom", team_id: team_id} = Repo.get(Player, player_id)
-      assert not is_nil(team_id)
+      assert %Player{first_name: "Tom", team_id: ^team_id} = Repo.get(Player, player_id)
     end
 
     test "creates player when not found" do
-      %Team{short_name: "TB"} |> Repo.insert!()
+      %{id: team_id} = insert(:team)
 
       assert [] == Repo.all(Player)
 
       assert {:ok, %Player{id: player_id, first_name: "Tom", last_name: "Brady", position: "QB"}} =
                Players.find_or_create("Tom Brady", "QB", "TB")
 
-      assert %Player{first_name: "Tom", team_id: team_id} = Repo.get(Player, player_id)
-      assert not is_nil(team_id)
+      assert %Player{first_name: "Tom", team_id: ^team_id} = Repo.get(Player, player_id)
     end
   end
 end

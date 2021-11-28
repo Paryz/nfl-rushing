@@ -8,7 +8,7 @@ defmodule RushHour.DataAccess.TeamsTest do
 
   describe "find_by/1" do
     test "finds a team by keyword" do
-      %Team{short_name: "TEN"} |> Repo.insert!()
+      insert(:team, short_name: "TEN")
 
       assert {:just, %Team{short_name: "TEN"}} = Teams.find_by(short_name: "TEN")
     end
