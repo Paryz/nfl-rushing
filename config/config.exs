@@ -17,6 +17,10 @@ config :rush_hour, RushHourWeb.Endpoint,
   pubsub_server: RushHour.PubSub,
   live_view: [signing_salt: "R9pDsgA+"]
 
+config :rush_hour, RushHour.Repo,
+  migration_timestamps: [type: :utc_datetime],
+  migration_primary_key: [name: :id, type: :binary_id]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
