@@ -3,9 +3,10 @@ import Config
 # Configure your database
 config :rush_hour, RushHour.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "mysecretpassword",
   database: "rush_hour_dev",
   hostname: "localhost",
+  port: 5433,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
