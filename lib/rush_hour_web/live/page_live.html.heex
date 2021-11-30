@@ -4,10 +4,10 @@
 </section>
 <section class="flex flex-row text-center pb-3 justify-center">
   <%= form_for :search, "#", [phx_submit: "nothing", phx_change: "search"],  fn f -> %>
-    <%= label f, :search %>
+    <%= label f, :search, class: "hidden md:inline" %>
     <%= text_input f, :query, value: @search %>
   <% end %>
-  <%= link("Download", to: Routes.download_path(RushHourWeb.Endpoint, :download_csv, search: @search, sort_by: @sort_by), class: "ml-4 px-4 py-2 text-gray-500 bg-gray-300 rounded-md hover:bg-blue-400 hover:text-white hover:cursor-pointer") %>
+  <%= link("Download", to: Routes.download_path(RushHourWeb.Endpoint, :download_csv, search: @search, sort_by: @sort_by), class: "text-sm ml-4 px-4 py-2 text-gray-500 bg-gray-300 rounded-md hover:bg-blue-400 hover:text-white hover:cursor-pointer") %>
 </section>
 <section class="flex flex-col items-center justify-center">
   <div class="flex flex-row text-center">

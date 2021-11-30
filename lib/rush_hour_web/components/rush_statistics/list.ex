@@ -11,17 +11,17 @@ defmodule RushHourWeb.Components.RushStatistics.List do
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Player Name
+                  Player
                 </th>
                 <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Team Name
+                  Team
                 </th>
                 <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Position
+                  Pos
                 </th>
                 <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <div>
-                    Total Rushing Yards
+                    Yds
                   </div>
                   <div>
                     <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_yards_asc"}) %>
@@ -30,48 +30,48 @@ defmodule RushHourWeb.Components.RushStatistics.List do
                 </th>
                 <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <div>
-                    Longest Rush
+                    Lng
                   </div>
                   <div>
                     <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "longest_rush_asc"}) %>
                     <%= live_patch "↓", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "longest_rush_desc"}) %>
                   </div>
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="text-center py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <div>
-                    Total Rushing Tds
+                    TD
                   </div>
-                  <div>
+                  <div class="flex">
                     <%= live_patch "↑", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_touchdowns_asc"}) %>
                     <%= live_patch "↓", to: RushHourWeb.Router.Helpers.page_path(@socket, :index, %{sort_by: "total_touchdowns_desc"}) %>
                   </div>
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Avg Att/G
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Total Attempts
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Avg Yds/Att
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Avg Yds/G
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   1ST
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   1ST%
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  20+ Yds Rushes
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  20+
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  40+ Yds Rushes
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  40+
                 </th>
-                <th scope="col" class="text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fumbles
+                <th scope="col" class="hidden lg:table-cell text-center px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Fum
                 </th>
               </tr>
             </thead>
