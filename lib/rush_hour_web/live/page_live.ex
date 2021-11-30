@@ -114,9 +114,7 @@ defmodule RushHourWeb.PageLive do
     |> Map.get("page", Map.get(assigns, :page, 0))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
     |> Map.put("search", Map.get(assigns, :search, ""))
-    |> IO.inspect()
     |> Map.merge(additional_params)
-    |> IO.inspect()
   end
 
   defp parse_string_to_int(int) when is_integer(int), do: int
