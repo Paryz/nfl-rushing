@@ -62,5 +62,6 @@ To start your Phoenix server:
 
   * run `make` to setup db in docker, install deps, setup db and install npm packages
   * Start Phoenix endpoint with `mix phx.server`
+  * optional: run `mix test` to run all tests
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
