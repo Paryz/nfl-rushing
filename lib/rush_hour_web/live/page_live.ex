@@ -81,6 +81,11 @@ defmodule RushHourWeb.PageLive do
      |> assign(search: query)}
   end
 
+  @impl true
+  def handle_event("nothing", _params, socket) do
+    {:noreply, socket}
+  end
+
   defp fetch_all_rush_statistics(params) do
     params
     |> RushStatistics.fetch_all_with_preloads()
