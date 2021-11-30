@@ -11,9 +11,12 @@ defmodule RushHourWeb.PageLive do
         "sort_by" => params |> Map.get("sort_by", "") |> get_sort_by_function()
       })
 
+    data = fetch_all_rush_statistics(params)
+
     socket
     |> assign(:socket, socket)
-    |> assign(:data, fetch_all_rush_statistics(params))
+    |> assign(:data, data)
+    |> assign(:count, Enum.count(data))
     |> assign(:page, Map.get(params, "page", "0"))
     |> assign(:search, Map.get(params, "search", ""))
     |> FE.Result.ok()
@@ -25,9 +28,12 @@ defmodule RushHourWeb.PageLive do
         "sort_by" => get_sort_by_function(sort_by)
       })
 
+    data = fetch_all_rush_statistics(params)
+
     {:noreply,
      socket
-     |> assign(:data, fetch_all_rush_statistics(params))
+     |> assign(:data, data)
+     |> assign(:count, Enum.count(data))
      |> assign(:sort_by, sort_by)}
   end
 
@@ -46,9 +52,12 @@ defmodule RushHourWeb.PageLive do
         "page" => page
       })
 
+    data = fetch_all_rush_statistics(params)
+
     {:noreply,
      socket
-     |> assign(data: fetch_all_rush_statistics(params))
+     |> assign(:data, data)
+     |> assign(:count, Enum.count(data))
      |> assign(page: page)}
   end
 
@@ -61,9 +70,12 @@ defmodule RushHourWeb.PageLive do
         "page" => page
       })
 
+    data = fetch_all_rush_statistics(params)
+
     {:noreply,
      socket
-     |> assign(data: fetch_all_rush_statistics(params))
+     |> assign(:data, data)
+     |> assign(:count, Enum.count(data))
      |> assign(page: page)}
   end
 
@@ -72,12 +84,17 @@ defmodule RushHourWeb.PageLive do
     params =
       parse_params(params, socket.assigns, %{
         "search" => query,
-        "sort_by" => socket.assigns |> Map.get(:sort_by, []) |> get_sort_by_function()
+        "sort_by" => socket.assigns |> Map.get(:sort_by, []) |> get_sort_by_function(),
+        "page" => 0
       })
+
+    data = fetch_all_rush_statistics(params)
 
     {:noreply,
      socket
-     |> assign(data: fetch_all_rush_statistics(params))
+     |> assign(data: data)
+     |> assign(count: Enum.count(data))
+     |> assign(page: 0)
      |> assign(search: query)}
   end
 
@@ -97,7 +114,9 @@ defmodule RushHourWeb.PageLive do
     |> Map.get("page", Map.get(assigns, :page, 0))
     |> then(&Map.put(params, "page", parse_string_to_int(&1)))
     |> Map.put("search", Map.get(assigns, :search, ""))
+    |> IO.inspect()
     |> Map.merge(additional_params)
+    |> IO.inspect()
   end
 
   defp parse_string_to_int(int) when is_integer(int), do: int
